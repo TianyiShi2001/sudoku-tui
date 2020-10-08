@@ -1,9 +1,9 @@
 use crate::board::SudokuBoard;
 use cursive::{
     align::VAlign,
+    event::Event,
     traits::*,
     views::{Button, Dialog, DummyView, LinearLayout, Panel},
-    event::{Event, },
     Cursive,
 };
 
@@ -19,10 +19,10 @@ pub fn run() {
     let buttons = LinearLayout::vertical()
         .child(DummyView)
         .child(DummyView)
-        .child(DummyView)
-        .child(DummyView) // TODO: remove dummy view
         .child(Button::new("Restart", restart))
         .child(Button::new("Hint", hint))
+        .child(Button::new("Undo", undo))
+        .child(Button::new("Redo", redo))
         .child(DummyView)
         .child(Button::new("Help", help))
         .child(Button::new("Quit", Cursive::quit));
@@ -48,6 +48,18 @@ fn restart(s: &mut Cursive) {
 fn hint(s: &mut Cursive) {
     s.call_on_name("board", |board: &mut SudokuBoard| {
         board.hint();
+    });
+}
+
+fn undo(s: &mut Cursive) {
+    s.call_on_name("board", |board: &mut SudokuBoard| {
+        board.undo();
+    });
+}
+
+fn redo(s: &mut Cursive) {
+    s.call_on_name("board", |board: &mut SudokuBoard| {
+        board.redo();
     });
 }
 

@@ -21,7 +21,8 @@ pub struct SudokuBoard {
     focus: [usize; 2],
     running: bool,
     history: Vec<[usize; 2]>,
-    redo: usize,
+    redo: Vec<([usize; 2], u8)>,
+    undos: usize,
     moves: usize,
     conflict: Option<[usize; 2]>,
 }
@@ -51,8 +52,9 @@ impl SudokuBoard {
             focus: [i / 9, i % 9],
             running: true, // TODO: CHANGE
             moves: 0,
-            redo: 0,
+            undos: 0,
             history: Vec::new(),
+            redo: Vec::new(),
             conflict: None,
         }
     }
@@ -191,10 +193,24 @@ impl SudokuBoard {
             None => {
                 self.conflict = None;
                 self.sudoku[self.focus] = v;
+                self.history.push(self.focus);
             }
             Some(coord) => {
                 self.conflict = Some(coord);
             }
+        }
+    }
+
+    pub fn undo(&mut self) {
+        if let Some(coord) = self.history.pop() {
+            self.redo.push((coord, self.sudoku[coord]));
+            self.sudoku[coord] = 0;
+        }
+    }
+
+    pub fn redo(&mut self) {
+        if let Some((coord, v)) = self.redo.pop() {
+            self.sudoku[coord] = v;
         }
     }
 
@@ -293,12 +309,14 @@ impl View for SudokuBoard {
                     }
                     return EventResult::Consumed(None);
                 }
-                Event::Key(Key::Right) | Event::Key(Key::Tab) => {
+                Event::Key(Key::Right) => {
                     self.move_focus_right();
                 }
                 Event::Key(Key::Left) => self.move_focus_left(),
                 Event::Key(Key::Down) => self.move_focus_down(),
                 Event::Key(Key::Up) => self.move_focus_up(),
+                Event::Key(Key::Tab) => self.move_focus_next(),
+                Event::Shift(Key::Tab) => self.move_focus_prev(),
                 Event::Mouse {
                     offset,
                     position,
@@ -323,6 +341,10 @@ impl View for SudokuBoard {
                     }
                     return EventResult::Consumed(None);
                 }
+                Event::CtrlChar('z') => self.undo(),
+                // Event::CtrlChar('Z') => self.redo(), // doesn't work
+                // Event::CtrlShift(Key::???) => self.redo(), // Key::Char?
+
                 // Event::Key(Key::Enter) => {
                 //     self.start();
                 // }
