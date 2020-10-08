@@ -1,6 +1,11 @@
 # sudoku-tui
 
-Play sudoku on the command line
+[![crates.io](https://img.shields.io/crates/d/sudoku-tui.svg)](https://crates.io/crates/sudoku-tui)
+[![crates.io](https://img.shields.io/crates/v/sudoku-tui.svg)](https://crates.io/crates/sudoku-tui)
+[![crates.io](https://img.shields.io/crates/l/sudoku-tui.svg)](https://crates.io/crates/sudoku-tui)
+[![docs.rs](https://docs.rs/sudoku-tui/badge.svg)](https://docs.rs/sudoku-tui)
+
+Play sudoku on the command line.
 
 # Installation
 

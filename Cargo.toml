@@ -1,6 +1,6 @@
 [package]
 name = "sudoku-tui"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["Tianyi <ShiTianyi2001@outlook.com>"]
 edition = "2018"
 description = "Play sudoku on the command line. (TUI interface)"
