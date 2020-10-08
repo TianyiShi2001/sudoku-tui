@@ -58,40 +58,18 @@ impl SudokuBoard {
     }
 
     pub fn hint(&mut self) {
-        let mut remaining = Vec::new();
+        let mut avail = Vec::new();
         for i in 0..9 {
             for j in 0..9 {
-                if self.sudoku[[i, j]] == 0 {
-                    remaining.push([i, j]);
+                if self.sudoku.available[i][j] {
+                    avail.push([i, j]);
                 }
             }
         }
-        if remaining.len() == 0 {
-            return;
-        }
-        let coord = remaining[rand::random::<usize>() % remaining.len()];
+        let coord = avail[rand::random::<usize>() % avail.len()];
         let [i, j] = coord;
         self.sudoku[coord] = self.ans[i][j];
         self.sudoku.available[i][j] = false;
-    }
-
-    fn draw_playing_(&self, printer: &Printer) {
-        printer.print((0, 0), "┏━━━━━━━━━━━━━━━━━┓");
-        for i in (1..20).step_by(2) {
-            for j in (1..20).step_by(2) {
-                printer.print((j, i), "0");
-            }
-        }
-        for i in (2..17).step_by(2) {
-            printer.print((0, i), "┠");
-            printer.print((18, i), "┨");
-        }
-        for i in (1..18).step_by(2) {
-            printer.print((0, i), "┃");
-            printer.print((18, i), "┃");
-        }
-        // printer.print((0, 0), "┏━━━━━━━━━━━━━━━━━━┓");
-        printer.print((0, 18), "┗━━━━━━━━━━━━━━━━━┛");
     }
     fn draw_playing(&self, printer: &Printer) {
         printer.print((0, 0), "┏━━━┯━━━┯━━━┓");
