@@ -57,7 +57,7 @@ impl Sudoku {
     fn conflict_row(&self, v: u8, coord: Coord) -> Option<[usize; 2]> {
         let [i_, j_] = coord;
         for j in 0..9 {
-            if self[[i_, j]] == v && j != j_ {
+            if self[[i_, j]] == v {
                 return Some([i_, j]);
             }
         }
@@ -66,7 +66,7 @@ impl Sudoku {
     fn conflict_col(&self, v: u8, coord: Coord) -> Option<[usize; 2]> {
         let [i_, j_] = coord;
         for i in 0..9 {
-            if self[[i, j_]] == v && i != i_ {
+            if self[[i, j_]] == v {
                 return Some([i, j_]);
             }
         }
@@ -78,7 +78,7 @@ impl Sudoku {
         for i in 3 * i_..3 * i_ + 3 {
             // "inner" i and j; indexes of individual cells
             for j in 3 * j_..3 * j_ + 3 {
-                if v == self[[i, j]] && [i, j] != coord {
+                if v == self[[i, j]] {
                     return Some([i, j]);
                 }
             }
