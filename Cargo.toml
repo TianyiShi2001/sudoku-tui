@@ -3,6 +3,9 @@ name = "sudoku-tui"
 version = "0.0.1"
 authors = ["Tianyi <ShiTianyi2001@outlook.com>"]
 edition = "2018"
+description = "Play sudoku on the command line. (TUI interface)"
+license = "MIT"
+repository = "https://github.com/TianyiShi2001/sudoku.tui"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
