@@ -44,10 +44,11 @@ impl SudokuBoard {
                 sudoku[i][j] = sudoku_[i * 9 + j];
             }
         }
+        let i = sudoku_.iter().position(|&x| x == 0).unwrap();
         Self {
             ans,
             sudoku: sudoku.into(),
-            focus: [0, 0],
+            focus: [i / 9, i % 9],
             running: true, // TODO: CHANGE
             moves: 0,
             redo: 0,
@@ -208,13 +209,12 @@ impl SudokuBoard {
 
     fn fill(&mut self, v: u8) {
         self.moves += 1;
-        self.sudoku[self.focus] = v;
         match self.sudoku.conflict(v, self.focus) {
             None => {
                 self.conflict = None;
+                self.sudoku[self.focus] = v;
             }
             Some(coord) => {
-                self.sudoku[self.focus] = 0;
                 self.conflict = Some(coord);
             }
         }
@@ -329,11 +329,13 @@ impl View for SudokuBoard {
                     match event {
                         MouseEvent::WheelDown => self.move_focus_next(),
                         MouseEvent::WheelUp => self.move_focus_prev(),
-                        MouseEvent::Press(_) if position > offset && position - offset < cursive::XY::new(12, 12) => {
-                            if let Some(coord) = Self::xy_to_coord((
-                                position.y - offset.y,
-                                position.x - offset.x,
-                            )) {
+                        MouseEvent::Press(_)
+                            if position > offset
+                                && position - offset < cursive::XY::new(12, 12) =>
+                        {
+                            if let Some(coord) =
+                                Self::xy_to_coord((position.y - offset.y, position.x - offset.x))
+                            {
                                 if self.sudoku.available[coord[0]][coord[1]] {
                                     self.focus = coord;
                                 }
