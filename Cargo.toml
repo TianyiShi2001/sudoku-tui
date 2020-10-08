@@ -1,0 +1,17 @@
+[package]
+name = "sudoku-tui"
+version = "0.0.1"
+authors = ["Tianyi <ShiTianyi2001@outlook.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sudoku = "0.7"
+cursive = "0.15"
+rand = "0.7"
+
+
+[[bin]]
+name = "sudoku"
+path = "src/main.rs"
