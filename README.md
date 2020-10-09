@@ -25,7 +25,10 @@ Works on Linux, MacOS and Windows, although you may be unable to use mouse actio
 # Roadmap
 
 - [X] Basic logic
-- [ ] Display `You win`
+- [X] Display `You win`
 - [X] Undo/Redo (`Ctrl + Shift + Z` binding not yet)
-- [ ] Limit number of steps
+- [ ] Limit number of steps?
+- [ ] Score calculation & difficulty selection
+- [ ] history?
+- [ ] time taken
 - [ ] Hex
