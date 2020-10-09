@@ -1,9 +1,7 @@
 use crate::board::SudokuBoard;
 use cursive::{
-    align::VAlign,
-    event::Event,
     traits::*,
-    views::{Button, Dialog, DummyView, LinearLayout, Panel},
+    views::{Button, Dialog, DummyView, LinearLayout},
     Cursive,
 };
 
@@ -41,7 +39,7 @@ pub fn run() {
 
 fn restart(s: &mut Cursive) {
     s.call_on_name("board", |board: &mut SudokuBoard| {
-        *board = SudokuBoard::new();
+        board.restart();
     });
 }
 

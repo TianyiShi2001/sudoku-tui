@@ -55,19 +55,19 @@ impl Sudoku {
     }
 
     fn conflict_row(&self, v: u8, coord: Coord) -> Option<[usize; 2]> {
-        let [i_, j_] = coord;
+        let [i, _] = coord;
         for j in 0..9 {
-            if self[[i_, j]] == v {
-                return Some([i_, j]);
+            if self[[i, j]] == v {
+                return Some([i, j]);
             }
         }
         None
     }
     fn conflict_col(&self, v: u8, coord: Coord) -> Option<[usize; 2]> {
-        let [i_, j_] = coord;
+        let [_, j] = coord;
         for i in 0..9 {
-            if self[[i, j_]] == v {
-                return Some([i, j_]);
+            if self[[i, j]] == v {
+                return Some([i, j]);
             }
         }
         None

@@ -5,10 +5,10 @@
 
 use crate::sudoku::Sudoku;
 use cursive::{
-    event::{Callback, Event, EventResult, Key, MouseEvent},
-    theme::{ColorStyle, Effect},
+    event::{Event, EventResult, Key, MouseEvent},
+    theme::ColorStyle,
     view::View,
-    Cursive, Printer, Vec2, With,
+    Printer, Vec2,
 };
 use rand::prelude::*;
 // type SudokuMatrix = [u8; 81];
@@ -252,6 +252,10 @@ impl SudokuBoard {
         }
     }
 
+    pub fn restart(&mut self) {
+        *self = SudokuBoard::new();
+    }
+
     fn move_focus_right(&mut self) {
         let [i, j] = self.focus;
         for k in 1..9 {
@@ -342,6 +346,7 @@ impl View for SudokuBoard {
             BoardState::Config => {
                 match event {
                     Event::Key(Key::Enter) => {
+                        self.restart();
                         self.state = BoardState::Playing;
                     }
                     _ => return EventResult::Ignored,

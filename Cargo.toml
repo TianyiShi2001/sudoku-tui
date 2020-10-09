@@ -11,7 +11,7 @@ repository = "https://github.com/TianyiShi2001/sudoku.tui"
 
 [dependencies]
 sudoku = "0.7"
-cursive = "0.15"
+cursive = {version = "0.15", default-features = false }
 rand = "0.7"
 
 [features]

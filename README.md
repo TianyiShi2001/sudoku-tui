@@ -20,7 +20,7 @@ Use arrow keys/mouse wheel/mouse click to navigate. Enter the number 0-9 to fill
 
 # Compatibility
 
-Currently only works on MacOS or Linux.
+Works on Linux, MacOS and Windows, although you may be unable to use mouse actions on Windows.
 
 # Roadmap
 

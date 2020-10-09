@@ -3,8 +3,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-use cursive::Cursive;
-use sudoku::Sudoku;
 use sudoku_tui::game::run;
 
 fn main() {
