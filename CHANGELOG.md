@@ -1,3 +1,9 @@
+## 0.1.0 2020-10-10
+
+### New Features
+
+- use `crossterm` to provide windows support
+
 ## 0.0.4 2020-10-09
 
 ### New Features
