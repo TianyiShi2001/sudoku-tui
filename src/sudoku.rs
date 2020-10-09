@@ -30,7 +30,7 @@ impl Sudoku {
         matrix.into()
     }
 
-    fn finished(&self) -> bool {
+    pub fn finished(&self) -> bool {
         for i in 0..9 {
             for j in 0..9 {
                 if self[[i, j]] == 0 {
