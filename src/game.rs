@@ -12,23 +12,35 @@ pub fn run() {
     siv.add_global_callback('h', hint);
     siv.add_global_callback('q', Cursive::quit);
 
+    siv.set_fps(2);
+
     let board = SudokuBoard::new();
 
-    let buttons = LinearLayout::vertical()
-        .child(DummyView)
-        .child(DummyView)
+    // let buttons = LinearLayout::vertical()
+    //     .child(DummyView)
+    //     .child(DummyView)
+    //     .child(Button::new("Restart", restart))
+    //     .child(Button::new("Hint", hint))
+    //     .child(Button::new("Undo", undo))
+    //     .child(Button::new("Redo", redo))
+    //     .child(DummyView)
+    //     .child(Button::new("Help", help))
+    //     .child(Button::new("Quit", Cursive::quit));
+    let buttons1 = LinearLayout::horizontal()
         .child(Button::new("Restart", restart))
         .child(Button::new("Hint", hint))
         .child(Button::new("Undo", undo))
-        .child(Button::new("Redo", redo))
-        .child(DummyView)
+        .child(Button::new("Redo", redo));
+
+    let buttons2 = LinearLayout::horizontal()
         .child(Button::new("Help", help))
         .child(Button::new("Quit", Cursive::quit));
 
     let view = Dialog::around(
-        LinearLayout::horizontal()
+        LinearLayout::vertical()
             .child(board.with_name("board"))
-            .child(buttons),
+            .child(buttons1)
+            .child(buttons2),
     )
     .title("SUDOKU");
 

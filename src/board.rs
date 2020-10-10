@@ -3,13 +3,19 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+// FIXME: refill should be counted as redo
+// FIXME: redid operations should go back to redo
+// FIXME: clean redo after new move
+
 use crate::sudoku::Sudoku;
+use clock_core::stopwatch::{Stopwatch, StopwatchData};
 use cursive::{
     event::{Event, EventResult, Key, MouseEvent},
     theme::ColorStyle,
     view::View,
     Printer, Vec2,
 };
+use hhmmss::Hhmmss;
 use rand::prelude::*;
 // type SudokuMatrix = [u8; 81];
 type SudokuMatrix = [[u8; 9]; 9];
@@ -34,6 +40,7 @@ pub struct SudokuBoard {
     hints: usize,
     conflict: Option<[usize; 2]>,
     state: BoardState,
+    stopwatch: Stopwatch,
 }
 
 impl SudokuBoard {
@@ -67,21 +74,20 @@ impl SudokuBoard {
             redo: Vec::new(),
             conflict: None,
             state: BoardState::Config,
+            stopwatch: Stopwatch::new(),
         }
     }
 
     fn draw_config(&self, printer: &Printer) {
-        printer.print((0, 6), "Press <Enter>");
-        printer.print((0, 7), "  to Start!");
+        printer.print((2, 6), "Press <Enter> to Start!");
     }
 
     fn draw_finish(&self, printer: &Printer) {
-        printer.print((0, 3), "Congratulations!");
-        printer.print((0, 4), &format!("  Steps: {}", self.moves));
-        printer.print((0, 5), &format!("  Redos: {}", self.undos));
-        printer.print((0, 6), &format!("  Hints: {}", self.hints));
-        printer.print((0, 7), "Press <Enter>");
-        printer.print((0, 8), " to continue");
+        printer.print((5, 2), "Congratulations!");
+        printer.print((5, 4), &format!("  Steps: {}", self.moves));
+        printer.print((5, 5), &format!("  Redos: {}", self.undos));
+        printer.print((5, 6), &format!("  Hints: {}", self.hints));
+        printer.print((1, 8), "Press <Enter> to continue");
     }
 
     fn draw_playing(&self, printer: &Printer) {
@@ -162,6 +168,16 @@ impl SudokuBoard {
                 p.print(Self::coord_to_xy(coord), &format!("{}", self.sudoku[coord]));
             });
         }
+
+        // draw info
+        printer.print((14, 0), "Time Elapsed");
+        printer.print((16, 1), &self.stopwatch.read().hhmmss());
+
+        printer.print((18, 3), "Moves");
+        printer.print((20, 4), &format!("{}", self.moves));
+
+        printer.print((18, 6), "Hint");
+        printer.print((18, 7), &format!("{}/Inf", self.hints));
     }
 
     fn focus_xy(&self) -> (usize, usize) {
@@ -202,6 +218,7 @@ impl SudokuBoard {
         self.sudoku[coord] = v;
         if self.sudoku.finished() {
             self.state = BoardState::Finish;
+            self.stopwatch.pause();
         }
     }
 
@@ -348,6 +365,8 @@ impl View for SudokuBoard {
                     Event::Key(Key::Enter) => {
                         self.restart();
                         self.state = BoardState::Playing;
+                        self.stopwatch = Stopwatch::new();
+                        self.stopwatch.resume();
                     }
                     _ => return EventResult::Ignored,
                 }

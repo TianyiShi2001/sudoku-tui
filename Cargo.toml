@@ -13,6 +13,8 @@ repository = "https://github.com/TianyiShi2001/sudoku-tui"
 sudoku = "0.7"
 cursive = {version = "0.15", default-features = false }
 rand = "0.7"
+clock-core = "0.0"
+hhmmss = "0.1"
 
 [features]
 default = ["cursive/crossterm-backend"]
