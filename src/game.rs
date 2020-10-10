@@ -33,6 +33,21 @@ pub fn run() {
         .child(Button::new("Redo", redo));
 
     let buttons2 = LinearLayout::horizontal()
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
+        .child(DummyView)
         .child(Button::new("Help", help))
         .child(Button::new("Quit", Cursive::quit));
 
