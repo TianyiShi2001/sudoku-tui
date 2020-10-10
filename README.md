@@ -6,7 +6,7 @@
 
 Play sudoku on the command line.
 
-![example.png](img/example.png)
+![example.png](https://github.com/TianyiShi2001/sudoku-tui/raw/main/img/example.png)
 
 # Installation
 
