@@ -3,8 +3,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-// FIXME: refill should be counted as redo
-
 use crate::sudoku::Sudoku;
 use clock_core::stopwatch::Stopwatch;
 use cursive::{
@@ -30,7 +28,7 @@ pub struct SudokuBoard {
     ans: SudokuMatrix,
     sudoku: Sudoku,
     focus: [usize; 2],
-    history: Vec<[usize; 2]>,
+    history: Vec<([usize; 2], u8)>,
     redo: Vec<([usize; 2], u8)>,
     undos: usize,
     moves: usize,
@@ -224,8 +222,8 @@ impl SudokuBoard {
         match self.sudoku.conflict(v, self.focus) {
             None => {
                 self.conflict = None;
+                self.history.push((self.focus, self.sudoku[self.focus]));
                 self.set_sodoku_value_and_check_finish(self.focus, v);
-                self.history.push(self.focus);
             }
             Some(coord) => {
                 self.conflict = Some(coord);
@@ -255,16 +253,16 @@ impl SudokuBoard {
     pub fn undo(&mut self) {
         self.undos += 1;
         self.moves += 1;
-        if let Some(coord) = self.history.pop() {
-            self.redo.push((coord, self.sudoku[coord]));
-            self.sudoku[coord] = 0;
+        if let Some((coord, v)) = self.history.pop() {
+            self.redo.push((self.focus, self.sudoku[self.focus]));
+            self.sudoku[coord] = v;
         }
     }
 
     pub fn redo(&mut self) {
         self.moves += 1;
         if let Some((coord, v)) = self.redo.pop() {
-            self.history.push(coord);
+            self.history.push((coord, v));
             self.sudoku[coord] = v;
         }
     }
