@@ -1,4 +1,16 @@
-## 0.1.0 2020-10-10
+## 0.2.0 2020-10-10
+
+### New Features
+
+- Info panel
+- Timing
+
+### Bugfix
+
+- corrected undo & redo behaviour
+- undo & redo should be counted as moves
+
+## 0.1.0 2020-10-09
 
 ### New Features
 
