@@ -4,8 +4,6 @@
 // https://opensource.org/licenses/MIT
 
 // FIXME: refill should be counted as redo
-// FIXME: redid operations should go back to redo
-// FIXME: clean redo after new move
 
 use crate::sudoku::Sudoku;
 use clock_core::stopwatch::{Stopwatch, StopwatchData};
@@ -223,6 +221,7 @@ impl SudokuBoard {
     }
 
     fn fill(&mut self, v: u8) {
+        self.redo.clear();
         self.moves += 1;
         match self.sudoku.conflict(v, self.focus) {
             None => {
@@ -265,6 +264,7 @@ impl SudokuBoard {
 
     pub fn redo(&mut self) {
         if let Some((coord, v)) = self.redo.pop() {
+            self.history.push(coord);
             self.sudoku[coord] = v;
         }
     }
