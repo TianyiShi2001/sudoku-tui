@@ -6,7 +6,7 @@
 // FIXME: refill should be counted as redo
 
 use crate::sudoku::Sudoku;
-use clock_core::stopwatch::{Stopwatch, StopwatchData};
+use clock_core::stopwatch::Stopwatch;
 use cursive::{
     event::{Event, EventResult, Key, MouseEvent},
     theme::ColorStyle,
@@ -30,7 +30,6 @@ pub struct SudokuBoard {
     ans: SudokuMatrix,
     sudoku: Sudoku,
     focus: [usize; 2],
-    running: bool,
     history: Vec<[usize; 2]>,
     redo: Vec<([usize; 2], u8)>,
     undos: usize,
@@ -64,7 +63,6 @@ impl SudokuBoard {
             ans,
             sudoku: sudoku.into(),
             focus: [i / 9, i % 9],
-            running: true, // TODO: CHANGE
             moves: 0,
             undos: 0,
             hints: 0,
@@ -256,6 +254,7 @@ impl SudokuBoard {
 
     pub fn undo(&mut self) {
         self.undos += 1;
+        self.moves += 1;
         if let Some(coord) = self.history.pop() {
             self.redo.push((coord, self.sudoku[coord]));
             self.sudoku[coord] = 0;
@@ -263,6 +262,7 @@ impl SudokuBoard {
     }
 
     pub fn redo(&mut self) {
+        self.moves += 1;
         if let Some((coord, v)) = self.redo.pop() {
             self.history.push(coord);
             self.sudoku[coord] = v;
