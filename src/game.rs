@@ -16,16 +16,6 @@ pub fn run() {
 
     let board = SudokuBoard::new();
 
-    // let buttons = LinearLayout::vertical()
-    //     .child(DummyView)
-    //     .child(DummyView)
-    //     .child(Button::new("Restart", restart))
-    //     .child(Button::new("Hint", hint))
-    //     .child(Button::new("Undo", undo))
-    //     .child(Button::new("Redo", redo))
-    //     .child(DummyView)
-    //     .child(Button::new("Help", help))
-    //     .child(Button::new("Quit", Cursive::quit));
     let buttons1 = LinearLayout::horizontal()
         .child(Button::new("Restart", restart))
         .child(Button::new("Hint", hint))
@@ -89,5 +79,5 @@ fn redo(s: &mut Cursive) {
 }
 
 fn help(s: &mut Cursive) {
-    s.add_layer(Dialog::info("Use arrow keys/mouse wheel/mouse click to navigate.\nEnter the number 0-9 to fill in.\nClick <Hint> or press <h> to obtain a hint.\nGood luck."))
+    s.add_layer(Dialog::info("Use arrow keys/TAB/Shift+TAB/mouse wheel/mouse click to navigate.\nEnter number 0-9 to fill in.\nClick <Hint> or press <h> to obtain a hint.\nGood luck."))
 }
